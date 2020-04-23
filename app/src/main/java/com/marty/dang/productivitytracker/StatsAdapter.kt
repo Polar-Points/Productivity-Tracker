@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.marty.dang.productivitytracker.repository.Entry
 
 /**
  *   Created by Marty Dang on 4/20/20

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.marty.dang.productivitytracker.repository.Entry
+import com.marty.dang.productivitytracker.repository.Repo
 
 class HomeFragment : Fragment() {
 
@@ -22,9 +24,7 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.stats_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val entry1 = Entry("Eating", "3 hours")
-        val entry2 = Entry("Drinking", "4 hours")
-        recyclerView.adapter = StatsAdapter(listOf(entry1, entry2))
+        recyclerView.adapter = StatsAdapter(Repo.getData() ?: listOf())
         return view
     }
 }

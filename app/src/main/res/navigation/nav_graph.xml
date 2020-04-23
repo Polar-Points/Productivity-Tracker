@@ -10,4 +10,9 @@
         android:name="com.marty.dang.productivitytracker.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/activityEntryFragment"
+        android:name="com.marty.dang.productivitytracker.ActivityEntryFragment"
+        android:label="activity_entry_fragment"
+        tools:layout="@layout/activity_entry_fragment" />
 </navigation>
