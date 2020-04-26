@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.marty.dang.productivitytracker.repository.Entry
+
 
 /**
  *   Created by Marty Dang on 4/20/20
  *   Copyright @ 2019 Dang, Marty. All rights reserved.
  */
-class StatsAdapter(private val dataSet: List<Entry>): RecyclerView.Adapter<StatsAdapter.ViewHolder>() {
+class StatsAdapter(private val dataSet:MutableList<Entry>): RecyclerView.Adapter<StatsAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -45,5 +47,30 @@ class StatsAdapter(private val dataSet: List<Entry>): RecyclerView.Adapter<Stats
         // with that element
         holder.category.text = dataSet[position].category
         holder.hours.text = dataSet[position].time
+    }
+
+    fun removeAt(viewHolder: RecyclerView.ViewHolder, recyclerView: RecyclerView) {
+
+        val adapterPosition = viewHolder.adapterPosition
+        val entry = dataSet[adapterPosition]
+//        val mAdapterPosition = viewHolder.adapterPosition
+
+        val snackbar: Snackbar = Snackbar.make(
+                recyclerView,
+                "Hey Fix it!",
+                Snackbar.LENGTH_LONG
+            )
+            .setAction("Undo", View.OnClickListener {
+                dataSet.add(adapterPosition, entry)
+                notifyItemInserted(adapterPosition)
+                recyclerView.scrollToPosition(adapterPosition)
+               // dataSet.remove(entry)
+
+
+            })
+        snackbar.show()
+        dataSet.removeAt(adapterPosition)
+        notifyItemRemoved(viewHolder.adapterPosition)
+        //dataSet.add(entry)
     }
 }

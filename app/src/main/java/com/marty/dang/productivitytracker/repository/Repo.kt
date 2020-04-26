@@ -21,7 +21,7 @@ object Repo {
         listOfEntries.add(entry)
     }
 
-    fun getData(): List<Entry>? {
+    fun getData(): MutableList<Entry>? {
         return listOfEntries
     }
 }
