@@ -1,12 +1,11 @@
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.marty.dang.productivitytracker.R
-import com.marty.dang.productivitytracker.StatsAdapter
+import com.marty.dang.productivitytracker.presentation.adapters.StatsAdapter
 
 // https://medium.com/@kitek/recyclerview-swipe-to-delete-easier-than-you-thought-cff67ff5e5f6
 // https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf

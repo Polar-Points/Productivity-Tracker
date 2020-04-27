@@ -1,5 +1,6 @@
-package com.marty.dang.productivitytracker
+package com.marty.dang.productivitytracker.presentation.adapters
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,25 +8,26 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.marty.dang.productivitytracker.repository.Entry
+import com.marty.dang.productivitytracker.R
+import com.marty.dang.productivitytracker.repository.Activity
 
 
 /**
  *   Created by Marty Dang on 4/20/20
  *   Copyright @ 2019 Dang, Marty. All rights reserved.
  */
-class StatsAdapter(private val dataSet:MutableList<Entry>): RecyclerView.Adapter<StatsAdapter.ViewHolder>() {
+class StatsAdapter(context: Context): RecyclerView.Adapter<StatsAdapter.ViewHolder>() {
+
+    private var dataSet = mutableListOf<Activity>()
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
-    class ViewHolder(v: View): RecyclerView.ViewHolder(v) {
-        val category: TextView
-        val hours: TextView
+    inner class ViewHolder(v: View): RecyclerView.ViewHolder(v) {
+        val category: TextView = v.findViewById(R.id.category)
+        val hours: TextView = v.findViewById(R.id.hours)
         init {
             v.setOnClickListener { Log.d("DFD", "Element $adapterPosition clicked.") }
-            category = v.findViewById(R.id.category)
-            hours = v.findViewById(R.id.hours)
         }
     }
 
@@ -45,15 +47,20 @@ class StatsAdapter(private val dataSet:MutableList<Entry>): RecyclerView.Adapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-        holder.category.text = dataSet[position].category
-        holder.hours.text = dataSet[position].time
+        val current = dataSet[position]
+        holder.category.text = current.activity
+        holder.hours.text = current.duration
+    }
+
+    fun setWords(entries: MutableList<Activity>) {
+        dataSet = entries
+        notifyDataSetChanged()
     }
 
     fun removeAt(viewHolder: RecyclerView.ViewHolder, recyclerView: RecyclerView) {
 
         val adapterPosition = viewHolder.adapterPosition
-        val entry = dataSet[adapterPosition]
-//        val mAdapterPosition = viewHolder.adapterPosition
+        val entry = dataSet?.get(adapterPosition)
 
         val snackbar: Snackbar = Snackbar.make(
                 recyclerView,
@@ -61,16 +68,14 @@ class StatsAdapter(private val dataSet:MutableList<Entry>): RecyclerView.Adapter
                 Snackbar.LENGTH_LONG
             )
             .setAction("Undo", View.OnClickListener {
-                dataSet.add(adapterPosition, entry)
+                if (entry != null) {
+                    dataSet.add(adapterPosition, entry)
+                }
                 notifyItemInserted(adapterPosition)
                 recyclerView.scrollToPosition(adapterPosition)
-               // dataSet.remove(entry)
-
-
             })
         snackbar.show()
         dataSet.removeAt(adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
-        //dataSet.add(entry)
     }
 }

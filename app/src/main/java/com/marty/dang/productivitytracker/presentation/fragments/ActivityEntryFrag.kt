@@ -1,4 +1,4 @@
-package com.marty.dang.productivitytracker
+package com.marty.dang.productivitytracker.presentation.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,18 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import com.marty.dang.productivitytracker.repository.Entry
-import com.marty.dang.productivitytracker.repository.Repo
+import com.marty.dang.productivitytracker.R
 
 
-class ActivityEntryFragment : Fragment(){
+class ActivityEntryFrag : Fragment(){
 
     private lateinit var categoryField: EditText
     private lateinit var timeField: EditText
     private lateinit var addButton: Button
 
     private val addButtonOnClickListener = View.OnClickListener {
-        Repo.addData(Entry(categoryField.text.toString(), timeField.text.toString()))
+        //Repo.addData(Entry(categoryField.text.toString(), timeField.text.toString()))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
