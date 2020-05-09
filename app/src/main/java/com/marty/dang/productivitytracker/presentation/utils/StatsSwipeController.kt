@@ -2,10 +2,12 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.marty.dang.productivitytracker.R
 import com.marty.dang.productivitytracker.presentation.adapters.StatsAdapter
+import com.marty.dang.productivitytracker.presentation.viewmodels.HomeFragViewModel
 
 // https://medium.com/@kitek/recyclerview-swipe-to-delete-easier-than-you-thought-cff67ff5e5f6
 // https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf
@@ -14,8 +16,9 @@ import com.marty.dang.productivitytracker.presentation.adapters.StatsAdapter
 
 // first param is for drags, set to 0 if you don't want to support it
 // second param is for the swipping
-class StatsSwipeController(val context: Context, val adapter: StatsAdapter,
-                           val recyclerView: RecyclerView) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+class StatsSwipeController(context: Context, private val adapter: StatsAdapter,
+                           private val recyclerView: RecyclerView, private val viewModel: HomeFragViewModel)
+    : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete_black_24dp)
     private val intrinsicWidth = deleteIcon!!.intrinsicWidth
@@ -29,8 +32,6 @@ class StatsSwipeController(val context: Context, val adapter: StatsAdapter,
         val dragFlags = 0
         val swipeFlags = ItemTouchHelper.START
         return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
-//        if(viewHolder.adapterPosition == 10) return 0
-//        return super.getMovementFlags(recyclerView, viewHolder)
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -38,6 +39,7 @@ class StatsSwipeController(val context: Context, val adapter: StatsAdapter,
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        viewModel.delete(adapter.getActivityAt(viewHolder.adapterPosition))
         adapter.removeAt(viewHolder, recyclerView)
     }
 

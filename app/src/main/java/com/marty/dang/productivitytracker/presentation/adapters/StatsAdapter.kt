@@ -1,6 +1,5 @@
 package com.marty.dang.productivitytracker.presentation.adapters
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.marty.dang.productivitytracker.R
 import com.marty.dang.productivitytracker.repository.Activity
+import timber.log.Timber
 
 
 /**
  *   Created by Marty Dang on 4/20/20
  *   Copyright @ 2019 Dang, Marty. All rights reserved.
  */
-class StatsAdapter(context: Context): RecyclerView.Adapter<StatsAdapter.ViewHolder>() {
+class StatsAdapter: RecyclerView.Adapter<StatsAdapter.ViewHolder>() {
 
     private var dataSet = mutableListOf<Activity>()
 
@@ -52,10 +52,16 @@ class StatsAdapter(context: Context): RecyclerView.Adapter<StatsAdapter.ViewHold
         holder.hours.text = current.duration
     }
 
+    fun getActivityAt(position: Int): Activity{
+        return dataSet[position]
+    }
+
+
     fun setWords(entries: MutableList<Activity>) {
         dataSet = entries
         notifyDataSetChanged()
     }
+
 
     fun removeAt(viewHolder: RecyclerView.ViewHolder, recyclerView: RecyclerView) {
 

@@ -16,12 +16,25 @@ import kotlinx.coroutines.launch
  */
 class HomeFragViewModel(application: Application): AndroidViewModel(application) {
 
-    val activityDao = ActivityDatabase.getDatabase(application, viewModelScope).activityDao()
+    private val activityDao = ActivityDatabase.getDatabase(application, viewModelScope).activityDao()
     val repository = Repository(activityDao)
-    val listOfActivities: LiveData<MutableList<Activity>> = repository.allActivities
+    val listOfActivitiesObservable: LiveData<MutableList<Activity>> = repository.allActivities
 
     fun insert(activity: Activity) {
-        viewModelScope.launch(Dispatchers.IO) { repository.insert(activity) }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(activity)
+        }
     }
 
+    fun update(activity: Activity){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.update(activity)
+        }
+    }
+
+    fun delete(activity: Activity){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.delete(activity)
+        }
+    }
 }

@@ -28,7 +28,7 @@ interface ActivityDao {
     fun getAlphabetizedWords(): LiveData<MutableList<Activity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(entry: Activity?)
+    fun insert(entry: Activity)
 
     @Update
     fun updateActivities(vararg activities: Activity)

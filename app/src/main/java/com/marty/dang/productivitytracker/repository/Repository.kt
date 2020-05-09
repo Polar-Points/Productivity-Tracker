@@ -14,8 +14,18 @@ class Repository(private val dao:ActivityDao) {
     val allActivities: LiveData<MutableList<Activity>> = dao.getAlphabetizedWords()
 
     @WorkerThread
-    suspend fun insert(activity: Activity){
+    fun insert(activity: Activity){
         dao.insert(activity)
+    }
+
+    @WorkerThread
+    fun update(activity: Activity) {
+        dao.updateActivities(activity)
+    }
+
+    @WorkerThread
+    fun delete(activity: Activity){
+        dao.deleteActivities(activity)
     }
 
 }

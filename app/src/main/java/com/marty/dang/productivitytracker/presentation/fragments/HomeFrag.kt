@@ -19,21 +19,23 @@ import com.marty.dang.productivitytracker.repository.Activity
 class HomeFrag : Fragment() {
 
     private val viewModel: HomeFragViewModel by viewModels()
+    val adapter = StatsAdapter()
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view =  inflater.inflate(R.layout.fragment_home, container, false)
-        val recyclerView: RecyclerView = view.findViewById(R.id.stats_recycler_view)
+
+        recyclerView = view.findViewById(R.id.stats_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = StatsAdapter(requireContext())
         recyclerView.adapter = adapter
 
-        viewModel.listOfActivities.observe(viewLifecycleOwner, Observer<MutableList<Activity>>{
+        viewModel.listOfActivitiesObservable.observe(viewLifecycleOwner, Observer<MutableList<Activity>>{
             adapter.setWords(it)
         })
 
-        val itemTouchHelper = ItemTouchHelper(StatsSwipeController(requireActivity(),adapter, recyclerView))
+        val itemTouchHelper = ItemTouchHelper(StatsSwipeController(requireActivity(),adapter, recyclerView, viewModel))
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         return view

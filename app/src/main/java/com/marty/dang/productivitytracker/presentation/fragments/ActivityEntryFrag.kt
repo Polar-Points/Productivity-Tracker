@@ -7,17 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.marty.dang.productivitytracker.R
+import com.marty.dang.productivitytracker.presentation.viewmodels.HomeFragViewModel
+import com.marty.dang.productivitytracker.repository.Activity
 
 
 class ActivityEntryFrag : Fragment(){
+
+    private val viewModel: HomeFragViewModel by activityViewModels()
 
     private lateinit var categoryField: EditText
     private lateinit var timeField: EditText
     private lateinit var addButton: Button
 
     private val addButtonOnClickListener = View.OnClickListener {
-        //Repo.addData(Entry(categoryField.text.toString(), timeField.text.toString()))
+        viewModel.insert(Activity(categoryField.text.toString(), timeField.text.toString()))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
